@@ -49,6 +49,7 @@ router.get('/units', (req, res, next) => {
 router.get('/units/:id', (req, res, next) => {
 	// req.params.id will be set based on the `:id` in the route
 	Unit.findById(req.params.id)
+		.populate('owner')
 		.then(handle404)
 		// if `findById` is succesful, respond with 200 and "unit" JSON
 		.then((unit) => res.status(200).json({ unit: unit.toObject() }))

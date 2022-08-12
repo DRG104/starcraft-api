@@ -24,7 +24,12 @@ const unitSchema = new mongoose.Schema(
 		},
 		Targets: {
 			type: String,
-			required: true,
+			enum: [
+				'Ground',
+				'Air',
+				'Ground / Air'
+			],
+			default: 'Ground'
 		},
 		Alive: {
 			type: Boolean,
@@ -60,7 +65,7 @@ unitSchema.virtual('unitInfo').get(function () {
 
 unitSchema.virtual('isAlive').get(function () {
     if (this.Alive === true  && this.Status === 'In-combat') {
-        return 'Your warriors are under attack!'
+        return `Your ${this.Name} is under attack!`
     } else if (this.Alive === true) {
         return `${this.Name} standing by and awaiting orders.`
     } else {
